@@ -1,0 +1,12 @@
+{
+  "data_kind": "software_verification",
+  "python": "3.12.14",
+  "dependencies": {"numpy": "2.2.6", "h5py": "3.13.0", "Pillow": "11.2.1"},
+  "test_command": "python -m pytest -q --junitxml=results/test-results.xml",
+  "tests_passed": 12,
+  "tests_failed": 0,
+  "module_demo_exit_code": 0,
+  "valid_module_check_exit_code": 0,
+  "invalid_module_check_exit_code": 1,
+  "notes": "Real local checks of independent synthetic fixtures. No robot, model or energy benchmark."
+}

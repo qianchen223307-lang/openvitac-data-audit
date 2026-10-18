@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openvitac-data-audit"
+version = "0.1.0"
+description = "Independent, CPU-only quality checks for OpenViTac ACT episode files"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26,<3", "h5py>=3.10,<4", "Pillow>=10,<13"]
+
+[project.scripts]
+openvitac-data-audit = "openvitac_data_audit.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["openvitac_data_audit*"]

@@ -1,0 +1,23 @@
+{
+  "valid": {
+    "episodes": 1,
+    "frames": 32,
+    "errors": 0,
+    "warnings": 0,
+    "passed": true
+  },
+  "invalid": {
+    "episodes": 1,
+    "frames": 32,
+    "errors": 4,
+    "warnings": 1,
+    "passed": false
+  },
+  "raw": {
+    "episodes": 1,
+    "frames": 0,
+    "errors": 1,
+    "warnings": 0,
+    "passed": false
+  }
+}

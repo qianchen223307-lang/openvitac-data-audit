@@ -1,0 +1,42 @@
+{
+  "schema": "openvitac-act-audit-report-v1",
+  "data_kind": "synthetic_demo",
+  "settings": {
+    "image_keys": [
+      "cam_high",
+      "tac_left",
+      "tac_right"
+    ],
+    "state_dim": 8,
+    "repeat_threshold": 10
+  },
+  "summary": {
+    "episodes": 1,
+    "frames": 0,
+    "errors": 1,
+    "warnings": 0,
+    "passed": false
+  },
+  "diagnostics": [
+    {
+      "check_id": "ACT_FORMAT",
+      "severity": "error",
+      "path": "episode_0.hdf5",
+      "message": "Raw OpenViTac format is unsupported.",
+      "hint": "Run the upstream ACT process_data.py first; this tool does not convert raw data."
+    }
+  ],
+  "episodes": [
+    {
+      "file": "episode_0.hdf5",
+      "frames": 0,
+      "streams": {},
+      "action_trace": []
+    }
+  ],
+  "limitations": [
+    "Frame-count agreement is not sensor synchronization verification.",
+    "Repeated images are review warnings, not proof of acquisition failure.",
+    "No simulator, model training, task success, hardware safety, or energy measurements are performed."
+  ]
+}

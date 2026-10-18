@@ -1,0 +1,326 @@
+{
+  "slug": "openvitac-data-audit",
+  "title": "OpenViTac 多模态数据质检",
+  "tagline": "先核对数据，再启动训练",
+  "category": "研究工程工具",
+  "data_kind": "synthetic_demo",
+  "summary": "独立编写的 CPU 质检工具，读取 ACT 处理后 HDF5，定位字段、帧数、数值和图像问题；演示全部使用自建几何数据。",
+  "metrics": [
+    {
+      "label": "正常样例错误",
+      "value": 0
+    },
+    {
+      "label": "异常样例错误",
+      "value": 4
+    },
+    {
+      "label": "检测图像流",
+      "value": 3
+    },
+    {
+      "label": "状态/动作维数",
+      "value": 8
+    }
+  ],
+  "charts": [
+    {
+      "title": "自建动作序列 · 前两个维度",
+      "kind": "line",
+      "labels": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "series": [
+        {
+          "name": "action[0]",
+          "values": [
+            0.018701210618019104,
+            0.037110596895217896,
+            0.054940883070230484,
+            0.07191383838653564,
+            0.08776459097862244,
+            0.10224582254886627,
+            0.11513152718544006,
+            0.12622065842151642,
+            0.1353401392698288,
+            0.14234769344329834,
+            0.1471339613199234,
+            0.14962425827980042,
+            0.14977970719337463,
+            0.14759789407253265,
+            0.14311286807060242,
+            0.13639461994171143,
+            0.1275479793548584,
+            0.11671098321676254,
+            0.10405275970697403,
+            0.0897708311676979,
+            0.07408805191516876,
+            0.057249151170253754,
+            0.03951690346002579,
+            0.021168000996112823,
+            0.0024887837935239077,
+            -0.01622927002608776,
+            -0.03469407185912132,
+            -0.05261748656630516,
+            -0.0697198212146759,
+            -0.08573419600725174,
+            -0.10041072219610214,
+            -0.11352037638425827
+          ]
+        },
+        {
+          "name": "action[1]",
+          "values": [
+            0.16636811196804047,
+            0.18262137472629547,
+            0.1975853443145752,
+            0.21102653443813324,
+            0.222735196352005,
+            0.23252859711647034,
+            0.24025395512580872,
+            0.24579069018363953,
+            0.24905240535736084,
+            0.24998822808265686,
+            0.24858349561691284,
+            0.2448602020740509,
+            0.23887640237808228,
+            0.23072549700737,
+            0.22053465247154236,
+            0.2084628939628601,
+            0.19469863176345825,
+            0.17945662140846252,
+            0.16297468543052673,
+            0.14551007747650146,
+            0.1273353099822998,
+            0.10873396694660187,
+            0.089996337890625,
+            0.07141482084989548,
+            0.05327935516834259,
+            0.03587295114994049,
+            0.01946723461151123,
+            0.004318200051784515,
+            -0.009337753057479858,
+            -0.021287545561790466,
+            -0.03134465962648392,
+            -0.039352186024188995
+          ]
+        }
+      ],
+      "y_label": "合成关节位置"
+    }
+  ],
+  "tables": [
+    {
+      "title": "支持的数据布局",
+      "columns": [
+        "路径",
+        "约束"
+      ],
+      "rows": [
+        [
+          "/action",
+          "[T,8] finite numeric"
+        ],
+        [
+          "/observations/qpos",
+          "[T,8] finite numeric"
+        ],
+        [
+          "/observations/images/{name}",
+          "[T,H,W,3] uint8"
+        ]
+      ]
+    }
+  ],
+  "images": [
+    {
+      "src": "assets/streams.png",
+      "caption": "独立生成的几何图像 · 三路数据预览 · 并非传感器采集"
+    },
+    {
+      "src": "assets/action-curve.png",
+      "caption": "实际合成 action[0] 数组曲线 · 未运行机器人"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "valid",
+      "label": "正常样例",
+      "summary": "32 帧、三路图像和 8 维状态/动作，所有硬性检查通过。",
+      "metrics": [
+        {
+          "label": "错误",
+          "value": 0
+        },
+        {
+          "label": "提示",
+          "value": 0
+        },
+        {
+          "label": "帧数",
+          "value": 32
+        }
+      ],
+      "charts": [],
+      "tables": [
+        {
+          "title": "检查诊断",
+          "columns": [
+            "检查",
+            "级别",
+            "路径",
+            "说明"
+          ],
+          "rows": [],
+          "note": "重复图像只提示复查；长度一致不代表传感器同步。"
+        }
+      ]
+    },
+    {
+      "id": "invalid",
+      "label": "注入四类错误",
+      "summary": "错误维数、NaN、图像 dtype 和流长度不一致；另有重复触觉帧提示。",
+      "metrics": [
+        {
+          "label": "错误",
+          "value": 4
+        },
+        {
+          "label": "提示",
+          "value": 1
+        },
+        {
+          "label": "帧数",
+          "value": 32
+        }
+      ],
+      "charts": [],
+      "tables": [
+        {
+          "title": "检查诊断",
+          "columns": [
+            "检查",
+            "级别",
+            "路径",
+            "说明"
+          ],
+          "rows": [
+            [
+              "ACT_FINITE",
+              "error",
+              "episode_0.hdf5:/action",
+              "NaN/Inf in 1 frame(s); first indices: [6]."
+            ],
+            [
+              "ACT_SHAPE",
+              "error",
+              "episode_0.hdf5:/observations/qpos",
+              "Shape (32, 7) does not match [T, 8]."
+            ],
+            [
+              "ACT_DTYPE",
+              "error",
+              "episode_0.hdf5:/observations/images/cam_high",
+              "Expected uint8 images; got float32."
+            ],
+            [
+              "ACT_REPEAT",
+              "warning",
+              "episode_0.hdf5:/observations/images/tac_left",
+              "Identical-frame runs of at least 10 frames: [[10, 23]]."
+            ],
+            [
+              "ACT_LENGTH",
+              "error",
+              "episode_0.hdf5:/observations/images/tac_right",
+              "Length 31 differs from action length 32."
+            ]
+          ],
+          "note": "重复图像只提示复查；长度一致不代表传感器同步。"
+        }
+      ]
+    },
+    {
+      "id": "raw",
+      "label": "原始格式",
+      "summary": "识别原始 embodiment/joint 布局并明确要求先转换。",
+      "metrics": [
+        {
+          "label": "错误",
+          "value": 1
+        },
+        {
+          "label": "提示",
+          "value": 0
+        },
+        {
+          "label": "帧数",
+          "value": 0
+        }
+      ],
+      "charts": [],
+      "tables": [
+        {
+          "title": "检查诊断",
+          "columns": [
+            "检查",
+            "级别",
+            "路径",
+            "说明"
+          ],
+          "rows": [
+            [
+              "ACT_FORMAT",
+              "error",
+              "episode_0.hdf5",
+              "Raw OpenViTac format is unsupported."
+            ]
+          ],
+          "note": "重复图像只提示复查；长度一致不代表传感器同步。"
+        }
+      ]
+    }
+  ],
+  "method": [
+    "先确认 processed ACT 布局与选中的图像字段。",
+    "按 32 帧块实际读取，检查 T、shape、dtype、有限值和图像重复区间。",
+    "每条诊断记录 check_id / severity / path / message / hint；CLI 返回可用于 CI 的退出码。"
+  ],
+  "limitations": [
+    "Frame-count agreement is not sensor synchronization verification.",
+    "Repeated images are review warnings, not proof of acquisition failure.",
+    "No simulator, model training, task success, hardware safety, or energy measurements are performed.",
+    "不读取 raw OpenViTac、LeRobot 或任意自定义 HDF5；未运行机器人或复现论文性能。"
+  ]
+}
